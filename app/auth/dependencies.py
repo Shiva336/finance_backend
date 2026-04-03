@@ -2,11 +2,8 @@ from fastapi import Depends, HTTPException, Request, status
 import jwt
 
 from app.auth.security import decode_token
-from app.repositories.user_repo import UserRepo
+from app.repositories.user_repo import user_repo
 from app.db.session import get_db
-
-user_repo = UserRepo()
-
 
 async def get_current_user(request: Request, db=Depends(get_db)):
     token = request.cookies.get("access_token")

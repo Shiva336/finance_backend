@@ -2,7 +2,6 @@ from sqlalchemy import select
 from app.models.user import User
 
 class UserRepo:
-
     async def get_by_email(self, db, email: str):
         result = await db.execute(select(User).where(User.email == email))
         return result.scalar_one_or_none()
@@ -17,3 +16,5 @@ class UserRepo:
         await db.commit()
         await db.refresh(user)
         return user
+    
+user_repo: UserRepo = UserRepo()

@@ -2,7 +2,6 @@ from sqlalchemy import select
 from app.models.refresh_token import RefreshToken
 
 class TokenRepo:
-
     async def create(self, db, user_id, jti, expires_at):
         token = RefreshToken(
             user_id=user_id,
@@ -26,3 +25,5 @@ class TokenRepo:
         if token:
             token.revoked = True
             await db.commit()
+
+token_repo: TokenRepo = TokenRepo()

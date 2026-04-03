@@ -2,11 +2,8 @@ from fastapi import HTTPException, status
 import jwt
 
 from app.auth.security import *
-from app.repositories.user_repo import UserRepo
-from app.repositories.token_repo import TokenRepo
-
-user_repo = UserRepo()
-token_repo = TokenRepo()
+from app.repositories.user_repo import user_repo
+from app.repositories.token_repo import token_repo
 
 class AuthService:
 
