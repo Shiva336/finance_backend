@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
     COOKIE_SECURE: bool = False  
+    COOKIE_HTTPONLY: bool = True
     COOKIE_SAMESITE: str = "lax"
 
     class Config:
