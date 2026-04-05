@@ -26,7 +26,7 @@ class AuthService:
     async def login(self, db, email, password):
         user = await user_repo.get_by_email(db, email)
 
-        if not user or not verify_password(password, user.password_hashed):
+        if not user or not verify_password(password, user.password_hash):
             raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid credentials")
 
         access = create_access_token(user.id)

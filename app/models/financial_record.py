@@ -18,7 +18,7 @@ class FinancialRecord(Base):
     amount = Column(Numeric(10, 2), nullable=False)
     type = Column(Enum(RecordType), nullable=False, index=True)
 
-    date = Column(DateTime, nullable=False, index=True)
+    date = Column(DateTime(timezone=True), nullable=False, index=True)
     notes = Column(String)
 
     is_deleted = Column(Boolean, default=False)

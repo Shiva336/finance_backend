@@ -3,10 +3,19 @@ from app.auth.router import router as auth_router
 from app.users.router import router as user_router
 from app.categories.router import router as category_router
 from app.records.router import router as record_router
+from fastapi.middleware.cors import CORSMiddleware
 from app.dashboard.router import router as dashboard_router
-from app.core.rate_limiter import global_rate_limit
+# from app.core.rate_limiter import global_rate_limit
 
-app = FastAPI(dependencies=[Depends(global_rate_limit)])
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_headers=["*"],
+    allow_methods=["*"],
+    allow_credentials=True
+)
 
 app.include_router(auth_router, prefix="/api/v1/auth", tags=["Auth"])
 app.include_router(user_router, prefix="/api/v1/user", tags=["User"])
