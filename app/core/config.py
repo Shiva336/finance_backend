@@ -19,6 +19,13 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+        
+    @property
+    def ASYNC_DATABASE_URL(self):
+        return self.DATABASE_URL.replace(
+            "postgresql://",
+            "postgresql+asyncpg://"
+        )
 
 @lru_cache()
 def get_settings():
