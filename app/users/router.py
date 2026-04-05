@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from app.auth.permissions import require_roles
 from app.auth.dependencies import get_current_user
 
-router = APIRouter(prefix="/api/users", tags=["Users"])
+router = APIRouter()
 
 @router.get("/me")
 async def get_profile(user=Depends(get_current_user)):

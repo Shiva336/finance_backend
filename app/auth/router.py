@@ -6,7 +6,7 @@ from app.core.config import settings
 from app.core.cookies import set_auth_cookies, clear_auth_cookies
 from app.core.rate_limiter import rate_limit
 
-router = APIRouter(prefix="/api/auth")
+router = APIRouter()
 
 @router.post("/register", dependencies=[Depends(rate_limit(5, 60))])
 async def register(data: RegisterRequest, response: Response, db=Depends(get_db)):

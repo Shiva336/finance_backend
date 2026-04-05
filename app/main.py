@@ -9,7 +9,7 @@ from app.core.rate_limiter import global_rate_limit
 app = FastAPI(dependencies=[Depends(global_rate_limit)])
 
 app.include_router(auth_router, prefix="/api/v1/auth", tags=["Auth"])
-app.include_router(user_router, prefix="/api/v1/user", tags=["Auth"])
+app.include_router(user_router, prefix="/api/v1/user", tags=["User"])
 app.include_router(category_router, prefix="/api/categories", tags=["Categories"])
 app.include_router(record_router, prefix="/api/records", tags=["Records"])
 app.include_router(dashboard_router, prefix="/api/dashboard", tags=["Dashboard"])
