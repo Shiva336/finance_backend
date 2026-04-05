@@ -9,10 +9,11 @@ from app.dashboard.schemas import (
 )
 from app.db.session import get_db
 from app.auth.permissions import require_roles
+from app.core.rate_limiter import rate_limit
 
 router = APIRouter()
 
-@router.get("/summary", response_model=SummaryResponse)
+@router.get("/summary", response_model=SummaryResponse, dependencies=[Depends(rate_limit(30, 60))])
 async def summary(
     db=Depends(get_db),
     user=Depends(require_roles(["admin", "analyst"]))

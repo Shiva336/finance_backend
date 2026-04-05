@@ -1,11 +1,12 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from app.auth.router import router as auth_router
 from app.users.router import router as user_router
 from app.categories.router import router as category_router
 from app.records.router import router as record_router
 from app.dashboard.router import router as dashboard_router
+from app.core.rate_limiter import global_rate_limit
 
-app = FastAPI()
+app = FastAPI(dependencies=[Depends(global_rate_limit)])
 
 app.include_router(auth_router, prefix="/api/v1/auth", tags=["Auth"])
 app.include_router(user_router, prefix="/api/v1/user", tags=["Auth"])

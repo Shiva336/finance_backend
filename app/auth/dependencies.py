@@ -34,4 +34,5 @@ async def get_current_user(request: Request, db=Depends(get_db)):
     if not user.is_active:
         raise HTTPException(403, "Inactive user")
 
+    request.state.user = user
     return user

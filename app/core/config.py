@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     COOKIE_SECURE: bool = False  
     COOKIE_HTTPONLY: bool = True
     COOKIE_SAMESITE: str = "lax"
+    
+    redis_host: str = "localhost"
+    redis_port: int = 6379
 
     class Config:
         env_file = ".env"

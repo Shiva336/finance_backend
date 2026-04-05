@@ -7,6 +7,7 @@ from app.records.service import record_service
 from app.db.session import get_db
 from app.auth.dependencies import get_current_user
 from app.auth.permissions import require_roles
+from app.core.rate_limiter import rate_limit
 
 router = APIRouter()
 
@@ -19,7 +20,7 @@ async def create_record(
     return await record_service.create(db, user, data)
 
 
-@router.get("/", response_model=list[RecordResponse])
+@router.get("/", response_model=list[RecordResponse], dependencies=[Depends(rate_limit(60, 60))])
 async def list_records(
     db=Depends(get_db),
     user=Depends(get_current_user),
