@@ -16,9 +16,9 @@ class FinancialRecord(Base):
     category_id = Column(Integer, ForeignKey("categories.id"))
 
     amount = Column(Numeric(10, 2), nullable=False)
-    type = Column(Enum(RecordType), nullable=False)
+    type = Column(Enum(RecordType), nullable=False, index=True)
 
-    date = Column(DateTime, nullable=False)
+    date = Column(DateTime, nullable=False, index=True)
     notes = Column(String)
 
     is_deleted = Column(Boolean, default=False)
