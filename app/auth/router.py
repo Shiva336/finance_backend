@@ -4,23 +4,23 @@ from app.auth.schemas import LoginRequest, RegisterRequest
 from app.db.session import get_db
 from app.core.config import settings
 from app.core.cookies import set_auth_cookies, clear_auth_cookies
-from app.core.rate_limiter import rate_limit
+# from app.core.rate_limiter import rate_limit
 
 router = APIRouter()
 
-@router.post("/register", dependencies=[Depends(rate_limit(5, 60))])
+@router.post("/register")
 async def register(data: RegisterRequest, response: Response, db=Depends(get_db)):
     user, access, refresh = await auth_service.register(db, data.email, data.password)
     set_auth_cookies(response, access, refresh)
     return {"user": user.email}
 
-@router.post("/login", dependencies=[Depends(rate_limit(5, 60))])
+@router.post("/login")
 async def login(data: LoginRequest, response: Response, db=Depends(get_db)):
     user, access, refresh = await auth_service.login(db, data.email, data.password)
     set_auth_cookies(response, access, refresh)
     return {"user": user.email}
 
-@router.post("/refresh", dependencies=[Depends(rate_limit(5, 60))])
+@router.post("/refresh")
 async def refresh(request: Request, response: Response, db=Depends(get_db)):
     token = request.cookies.get("refresh_token")
     access, refresh = await auth_service.refresh(db, token)
