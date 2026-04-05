@@ -58,35 +58,38 @@ class DashboardRepo:
 
 
     async def monthly_trends(self, db, user_id):
+        month_expr = func.date_trunc('month', FinancialRecord.date)
+
         result = await db.execute(
             select(
-                func.to_char(FinancialRecord.date, "YYYY-MM"),
+                month_expr.label("month"),
                 func.sum(
                     case(
                         (FinancialRecord.type == "income", FinancialRecord.amount),
                         else_=0
                     )
-                ),
+                ).label("income"),
                 func.sum(
                     case(
                         (FinancialRecord.type == "expense", FinancialRecord.amount),
                         else_=0
                     )
-                ),
+                ).label("expense"),
             )
             .where(
                 FinancialRecord.user_id == user_id,
                 FinancialRecord.is_deleted == False
             )
-            .group_by(func.to_char(FinancialRecord.date, "YYYY-MM"))
-            .order_by(func.to_char(FinancialRecord.date, "YYYY-MM"))
+            .group_by(month_expr)
+            .order_by(month_expr)
         )
 
         return [
             {
-                "month": row[0],
-                "income": float(row[1] or 0),
-                "expense": float(row[2] or 0),
+                # format AFTER grouping ✅
+                "month": row.month.strftime("%Y-%m"),
+                "income": float(row.income or 0),
+                "expense": float(row.expense or 0),
             }
             for row in result.all()
         ]
